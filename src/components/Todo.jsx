@@ -1,17 +1,31 @@
-//Importamos React y useState
-//Importamos todoForm
+import React, {useState} from 'react'
+import TodoForm from './TodoForm'
 
 
-//Creamos una funcion 'Todo'
-//pasamos por argumento los 'todos' que existen en la todolist
-//tambien pasamos los eventHandlers que vamos a crear: completeTodo, removeTodo, updateTodo
+function Todo({todos, completeTodo, removeTodo, updateTodo}){
 
-//Dentro de la funcion vamos a manejar los estados edit y setEdit.
+   const [edit, setEdit] = useState({
+       id: null,
+       value: ''
+   })
+
+    return todos.map((todo, index)=>(
+
+        <div>
+        <div key={todo.id}> 
+        {todo.text}
+        </div>
+        <button>x</button>
+        <button>edit</button>
+        </div>
+
+    ))
+}
+
 //Vamos a crear el eventHandler de submitUpdate.
 
 //El return esta vez va a consistir de un map sobre todos, 
 //donde vamos a generar nuevos arrays a partir de cada 'todo' indexado, agregandole las funciones que tienen que tener:
 //completar tarea, remover y editar.
 
-
-//exportar Todo.
+export default Todo;

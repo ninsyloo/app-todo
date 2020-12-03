@@ -50,12 +50,7 @@ return(
 <div className='todo-list'>
     <h1>Que vamos hacer el dia de hoy?</h1>
     <TodoForm onSubmit = {addTodo}/>
-    <Todo 
-    todos={todos} 
-    completeTodo={completeTodo} 
-    removeTodo={removeTodo}
-    updateTodo={updateTodo}
-    />
+    <Todo todos={todos}/>
     <p>Esta app la hicimos en el Stand Up</p>
 </div>
  )
