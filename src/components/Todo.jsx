@@ -9,9 +9,11 @@ function Todo({todos, completeTodo, removeTodo, updateTodo}){
        value: ''
    })
 
-    return todos.map((todo, index)=>(
+   //Vamos a crear el eventHandler de submitUpdate.
+   
+   return todos.map((todo, index)=>(
 
-        <div>
+        <div key={index}>
         <div key={todo.id}> 
         {todo.text}
         </div>
@@ -21,11 +23,5 @@ function Todo({todos, completeTodo, removeTodo, updateTodo}){
 
     ))
 }
-
-//Vamos a crear el eventHandler de submitUpdate.
-
-//El return esta vez va a consistir de un map sobre todos, 
-//donde vamos a generar nuevos arrays a partir de cada 'todo' indexado, agregandole las funciones que tienen que tener:
-//completar tarea, remover y editar.
 
 export default Todo;
