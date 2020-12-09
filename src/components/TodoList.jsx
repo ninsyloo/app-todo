@@ -46,7 +46,7 @@ function TodoList(){
     };
 
     //CREAR UN EVENHANDLER COMPLETETODO
-
+    //Explica con tus propias palabras como funciona este handler.
     const completeTodo = id => {
       let updatedTodos = todos.map(todo => {
         if (todo.id === id) {
