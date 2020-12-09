@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import TodoForm from './TodoForm'
+import { AiOutlineCloseCircle } from 'react-icons/ai'; //estos son botones con estilos que importe de react-icons
+import { TiEdit } from 'react-icons/ti';
 
 function Todo({todos, completeTodo, removeTodo, updateTodo}){
 
@@ -8,20 +10,35 @@ function Todo({todos, completeTodo, removeTodo, updateTodo}){
        value: ''
    })
 
-   //Vamos a crear el eventHandler de submitUpdate.
-   
+   //Explica con tus propias palabras como funciona este Handler.
+   const submitUpdate = value =>{
+       updateTodo(edit.id, value);
+       setEdit({
+           id:null,
+           value:''
+       });
+   };
+
+   if (edit.id) {
+    return <TodoForm edit={edit} onSubmit={submitUpdate} />;
+  }
+
    //En el map utilizamos el array de tareas (todos) que creamos con TodoList
    return todos.map((todo, index)=>(
 
-        <div key={index}>
-        <div key={todo.id}> 
+        <div 
+        className={todo.isComplete ? 'todo-row complete': 'todo-row'}
+        key={index}>
+        
+        <div key={todo.id} onClick={()=> completeTodo(todo.id)}> 
         {todo.text}
         </div>
-        <button>x</button>
-        <button>edit</button>
-        </div>
+        <AiOutlineCloseCircle onClick={()=>removeTodo(todo.id)}/>
+        <TiEdit onClick={()=>setEdit({id:todo.id, value:todo.text})}/>
 
+        </div>
     ))
+    //en el boton de edit, pasamos como un objeto el id del item que queremos editar y su value.
 }
 
 //todo.id representa el id que le generamos a cada input con el handleSubmit en todoFormjsx.

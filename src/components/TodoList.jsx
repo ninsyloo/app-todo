@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import TodoForm from './TodoForm'
 import Todo from './Todo'
+import {AiFillHeart} from 'react-icons/ai'
 
 
 function TodoList(){
@@ -19,40 +20,56 @@ function TodoList(){
      console.log(...todos)//consologueamos el nuevo estado incial.
     }
     
-    //CREAR EL EVENTHANDLER EDIT TODO
-
-    const updateTodo = (todoId, newValue) =>{
-      setTodos(prev => prev.map(item=>(item.id === todoId? newValue: item))
-      )
-    }
+    //CREAR EL EVENTHANDLER UPDATE TODO
+    const updateTodo = (todoId, newValue) => {
+      //como nosotros queremos setear el cambio que realizamos sobre todos, pasamos el map directamente
+      //dentro de setTodos.
+      setTodos(prev => prev.map(todo => (todo.id === todoId ? newValue : todo)));
+      //prev: es el valor de todo previo sobre el que vamos a realizar el map.
+      //todo.id = es el id del todo sobre el cual iteramos
+      //todoId = es el id del todo que pasamos por parametro
+      //la logica del ternario seria: si el id de esta tarea es igual al id que pasamos por parametro, seteame su valor 
+      //con este nuevo valor que ingreamos tambien por parametro, sino devolveme la tarea tal cual ingreso.
+    };
+  
 
 
     //CREAR EVENTHANDLER REMOVE TODO
-    //Para remover algo en particular de un array podemos utilizar el metodo filter.
+    //a) pasamos por parametro el id de la tarea que deseamos remover
+    //b) con el spread operator ingresamos todos los todos dentro de un nuevo array para poder aplicarles el metodo filter
+    //c) y de ahi en mas decimos, si el todo.id que te paso es diferente al id que ingreso por parametro guardamelo 
+    //en la variable temporal removedArr
+    //d)seteamos el arreglo de todos pasando la variable temporal por setTodos()
+    const removeTodo = id => {
+      const removedArr = [...todos].filter(todo => todo.id !== id);
+      setTodos(removedArr);
+    };
 
-    const removeTodo = (id) =>{
-       const removeArr = [...todos].filter(todo => todo.id !== id)
-       setTodos(removeArr)
-    }
+    //CREAR UN EVENHANDLER COMPLETETODO
 
-    //CREAR EVENHANDLER COMPLETE TODO
-    const completeTodo = (id) =>{
-       let updatedTodos = todos.map(todo =>{
-         if (todo.id === id) {
-           todo.isComplete = !todo.isComplete;
-         }
-         return todo;
-       });
-       setTodos(updatedTodos);
-    }
+    const completeTodo = id => {
+      let updatedTodos = todos.map(todo => {
+        if (todo.id === id) {
+          todo.isComplete = !todo.isComplete;
+        }
+        return todo;
+      });
+      setTodos(updatedTodos);
+    };
 
 return(
-<div className='todo-list'>
-    <h1>Que vamos hacer el dia de hoy?</h1>
+<>
+    <h1>Lista de compras!</h1>
     <TodoForm onSubmit = {addTodo}/>
-    <Todo todos={todos}/>
-    <p>Esta app la hicimos en el Stand Up</p>
-</div>
+    <Todo //Aca pasamos todos los handlers que creamos para Todo
+    todos={todos}
+    completeTodo={completeTodo}
+    removeTodo={removeTodo}
+    updateTodo={updateTodo}
+    />
+    <h5>Hace click sobre lo que ya compraste!</h5>
+    <h5><em>Hecho con amor <AiFillHeart/></em></h5>
+</>
  )
 } //pasamos el eventHandler addTodo por TodoForm para que capture el input que ingresa por TodoForm 
   //y lo retorne en nuestra lista.

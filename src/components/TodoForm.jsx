@@ -1,14 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 function TodoForm(props){
   
-    const [input, setInput] = useState(''); 
+    const [input, setInput] = useState(props.edit? props.edit.value : ''); 
     //el useState es lo que va a manejar los estados del input.
     //el estado incial del input es estar vacio, ya que no contiene ningun tipo de informacion
     //cuando el usuario escribe una actividad dentro del input ej: pasear el perro, lo que hace es cambiar ese estado
     //por lo que vamos a necesitar setearlo.
     //Como lo que vamos a recibir es una string, nosotros pasamos dentro del useState comillas.
 
+    const inputRef = useRef(null);
+    useEffect(()=>{
+        inputRef.current.focus();
+    });
 
     //El manejo de eventos en React se realiza con handlers como los de abajo
     //Que son los handlers? Son funciones callback que vamos a utilizar para otorgar 
@@ -34,14 +38,40 @@ function TodoForm(props){
 
     return(
         <form className='todo-form' onSubmit={handleSubmit}> 
+       
+        {props.edit? (
+        
+        <>
+        
+        <input
+        placeholder='Modifica tu item!'
+        value={input}
+        onChange={handleChange}
+        name='text'
+        ref={inputRef}
+        className='todo-input edit'
+        />
+        <button className='todo-button edit' onClick={handleSubmit}>Update</button>
+        
+        </>
+        
+        ):(
+       
+       <>
+
         <input
         className='todo-input'
-        type='text'
-        placeholder='Agregar Tarea' 
+        placeholder='Agregar un item!' 
         value={input}//este es el valor que ingresa en el handleChange cuando seteamos el estado.
         onChange={handleChange}
+        name='text'
+        ref={inputRef}
         />
+        
         <button className='todo-button' onClick={handleSubmit}>Submit</button>
+        
+        </>
+        )}
         </form>
     )
 }
